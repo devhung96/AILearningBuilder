@@ -1,3 +1,4 @@
+import OpenRouter from '@openrouter/sdk';
 import { Roadmap } from '../types';
 import { roadmapSchema } from './geminiService'; // Reuse the schema for consistency
 
@@ -7,7 +8,13 @@ if (!API_KEY) {
   console.warn("OPENROUTER_API_KEY environment variable is not set. The application will not be able to connect to the OpenRouter service.");
 }
 
-const OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions";
+const openrouter = new OpenRouter({
+  apiKey: API_KEY,
+  defaultHeaders: {
+    'HTTP-Referer': `${window.location.origin}`,
+    'X-Title': 'AI Learning Roadmap Builder',
+  }
+});
 
 const schemaToString = (schema: object) => {
     return JSON.stringify(schema, null, 2);
@@ -20,37 +27,20 @@ JSON Schema:
 ${schemaToString(roadmapSchema)}`;
 
   try {
-    const response = await fetch(OPENROUTER_API_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${API_KEY}`,
-        'HTTP-Referer': `${window.location.origin}`, // Recommended by OpenRouter
-        'X-Title': 'AI Learning Roadmap Builder', // Recommended by OpenRouter
-      },
-      body: JSON.stringify({
+    const completion = await openrouter.chat.completions.create({
         model: 'google/gemma-2-27b-it', // A powerful, free model on OpenRouter
         messages: [{ role: 'user', content: prompt }],
         response_format: { type: 'json_object' },
         temperature: 0.7,
-      }),
     });
 
-    if (!response.ok) {
-        const errorBody = await response.text();
-        console.error("OpenRouter API Error:", errorBody);
-        throw new Error(`OpenRouter API request failed with status ${response.status}`);
-    }
-
-    const data = await response.json();
-    
     // Validate the response structure from OpenRouter
-    if (!data.choices || data.choices.length === 0 || !data.choices[0].message || !data.choices[0].message.content) {
-        console.error("Invalid response structure from OpenRouter:", data);
+    if (!completion.choices || completion.choices.length === 0 || !completion.choices[0].message || !completion.choices[0].message.content) {
+        console.error("Invalid response structure from OpenRouter:", completion);
         throw new Error("Received an invalid or empty response from the AI model.");
     }
 
-    const jsonText = data.choices[0].message.content.trim();
+    const jsonText = completion.choices[0].message.content.trim();
 
     if (!jsonText) {
         console.error("Empty content received from OpenRouter");
