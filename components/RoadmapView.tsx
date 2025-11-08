@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Roadmap } from '../types';
@@ -11,11 +10,22 @@ interface RoadmapViewProps {
   selectedChapterId: string | null;
   onSelectChapter: (id: string) => void;
   onToggleChapterComplete: (id:string) => void;
+  onToggleResourceComplete: (chapterId: string, resourceUrl: string) => void;
+  onToggleResourceHelpful: (chapterId: string, resourceUrl: string) => void;
   onReset: () => void;
   onLoadFromHistory: (roadmap: Roadmap) => void;
 }
 
-const RoadmapView: React.FC<RoadmapViewProps> = ({ roadmap, selectedChapterId, onSelectChapter, onToggleChapterComplete, onReset, onLoadFromHistory }) => {
+const RoadmapView: React.FC<RoadmapViewProps> = ({ 
+  roadmap, 
+  selectedChapterId, 
+  onSelectChapter, 
+  onToggleChapterComplete,
+  onToggleResourceComplete,
+  onToggleResourceHelpful,
+  onReset, 
+  onLoadFromHistory 
+}) => {
   const { t } = useTranslation();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -72,7 +82,11 @@ const RoadmapView: React.FC<RoadmapViewProps> = ({ roadmap, selectedChapterId, o
 
         <div className="flex-1 overflow-y-auto p-4 md:p-8">
             {selectedChapter ? (
-                <ChapterContent chapter={selectedChapter} />
+                <ChapterContent 
+                    chapter={selectedChapter} 
+                    onToggleResourceComplete={onToggleResourceComplete}
+                    onToggleResourceHelpful={onToggleResourceHelpful}
+                />
             ) : (
                 <div className="flex items-center justify-center h-full">
                     <p className="text-xl text-gray-500">{t('selectChapterPrompt')}</p>

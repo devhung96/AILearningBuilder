@@ -1,4 +1,3 @@
-
 {
   "appName": "Xây dựng Lộ trình Học tập bằng AI",
   "appDescription": "Nhập bất kỳ chủ đề nào bạn muốn thành thạo và để AI tạo ra hành trình học tập được cá nhân hóa cho bạn.",
@@ -32,5 +31,7 @@
   },
   "modelSelector": "Chọn một Mô hình:",
   "gemini": "Gemini 2.5 Pro",
-  "openrouter": "Gemma 2 (Miễn phí)"
+  "openrouter": "Gemma 2 (Miễn phí)",
+  "markAsCompleted": "Đánh dấu là đã hoàn thành",
+  "markAsHelpful": "Đánh dấu là hữu ích"
 }

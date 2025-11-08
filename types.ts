@@ -1,8 +1,9 @@
-
 export interface Resource {
   type: 'video' | 'article' | 'documentation' | 'book' | 'interactive';
   title: string;
   url: string;
+  isCompleted: boolean;
+  isHelpful: boolean;
 }
 
 export interface Exercise {

@@ -1,4 +1,5 @@
-import OpenRouter from '@openrouter/sdk';
+// Fix: Changed default import to named import for OpenRouter SDK to resolve "not constructable" error.
+import { OpenRouter } from '@openrouter/sdk';
 import { Roadmap } from '../types';
 import { roadmapSchema } from './geminiService'; // Reuse the schema for consistency
 
@@ -67,6 +68,11 @@ ${schemaToString(roadmapSchema)}`;
     const chaptersWithCompletion = roadmapData.chapters.map((chapter: any) => ({
       ...chapter,
       isCompleted: false,
+      resources: (chapter.resources || []).map((resource: any) => ({
+        ...resource,
+        isCompleted: false,
+        isHelpful: false,
+      })),
     }));
 
     return { ...roadmapData, chapters: chaptersWithCompletion };

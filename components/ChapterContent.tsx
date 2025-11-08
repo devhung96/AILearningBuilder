@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Chapter, Resource } from '../types';
@@ -7,9 +6,12 @@ import VideoCameraIcon from './icons/VideoCameraIcon';
 import DocumentTextIcon from './icons/DocumentTextIcon';
 import CodeBracketIcon from './icons/CodeBracketIcon';
 import ChevronRightIcon from './icons/ChevronRightIcon';
+import ThumbUpIcon from './icons/ThumbUpIcon';
 
 interface ChapterContentProps {
   chapter: Chapter;
+  onToggleResourceComplete: (chapterId: string, resourceUrl: string) => void;
+  onToggleResourceHelpful: (chapterId: string, resourceUrl: string) => void;
 }
 
 const ResourceIcon: React.FC<{ type: Resource['type'] }> = ({ type }) => {
@@ -37,7 +39,7 @@ const Section: React.FC<{ title: string; children: React.ReactNode }> = ({ title
     </div>
 );
 
-const ChapterContent: React.FC<ChapterContentProps> = ({ chapter }) => {
+const ChapterContent: React.FC<ChapterContentProps> = ({ chapter, onToggleResourceComplete, onToggleResourceHelpful }) => {
   const { t } = useTranslation();
   
   return (
@@ -71,20 +73,36 @@ const ChapterContent: React.FC<ChapterContentProps> = ({ chapter }) => {
         <Section title={t('resources')}>
             <div className="space-y-3">
                 {chapter.resources.map((res, index) => (
-                    <a
-                        key={index}
-                        href={res.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center p-3 bg-gray-900/50 rounded-md border border-transparent hover:border-purple-500 hover:bg-gray-800 transition-all"
-                    >
-                        <ResourceIcon type={res.type} />
-                        <div className="flex-1">
-                            <p className="font-semibold">{res.title}</p>
-                            <p className="text-xs text-gray-400 capitalize">{t(`resourceType.${res.type}`, res.type)}</p>
-                        </div>
-                        <ChevronRightIcon className="w-5 h-5 text-gray-500" />
-                    </a>
+                    <div key={index} className="flex items-center p-3 bg-gray-900/50 rounded-md transition-all group border border-transparent hover:border-purple-500/50">
+                        <label className="flex items-center cursor-pointer mr-4" title={t('markAsCompleted')}>
+                            <input
+                                type="checkbox"
+                                checked={res.isCompleted}
+                                onChange={() => onToggleResourceComplete(chapter.id, res.url)}
+                                className="w-5 h-5 rounded bg-gray-700 border-gray-600 text-purple-500 focus:ring-purple-600 focus:ring-offset-gray-900"
+                            />
+                        </label>
+                        <a
+                            href={res.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center flex-1 min-w-0"
+                        >
+                            <ResourceIcon type={res.type} />
+                            <div className="flex-1 min-w-0">
+                                <p className={`font-semibold truncate ${res.isCompleted ? 'line-through text-gray-400' : ''}`}>{res.title}</p>
+                                <p className="text-xs text-gray-400 capitalize">{t(`resourceType.${res.type}`, res.type)}</p>
+                            </div>
+                            <ChevronRightIcon className="w-5 h-5 text-gray-500 group-hover:text-white ml-2 flex-shrink-0" />
+                        </a>
+                        <button 
+                            onClick={() => onToggleResourceHelpful(chapter.id, res.url)}
+                            className="ml-4 p-2 rounded-full hover:bg-gray-700 transition-colors"
+                            title={t('markAsHelpful')}
+                        >
+                            <ThumbUpIcon className={`w-5 h-5 transition-colors ${res.isHelpful ? 'text-cyan-400 fill-cyan-400/20' : 'text-gray-500 hover:text-cyan-400'}`} />
+                        </button>
+                    </div>
                 ))}
             </div>
         </Section>

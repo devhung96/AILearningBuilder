@@ -61,7 +61,10 @@ const App: React.FC = () => {
       
       const newChapters = prevRoadmap.chapters.map(chapter => {
         if (chapter.id === chapterId) {
-          return { ...chapter, isCompleted: !chapter.isCompleted };
+           const newIsCompleted = !chapter.isCompleted;
+           // When a chapter is toggled, toggle all its resources as well
+          const newResources = chapter.resources.map(res => ({ ...res, isCompleted: newIsCompleted }));
+          return { ...chapter, isCompleted: newIsCompleted, resources: newResources };
         }
         return chapter;
       });
@@ -72,6 +75,53 @@ const App: React.FC = () => {
       return newRoadmap;
     });
   }, [addRoadmapToHistory]);
+  
+  const handleToggleResourceComplete = useCallback((chapterId: string, resourceUrl: string) => {
+    setRoadmap(prevRoadmap => {
+        if (!prevRoadmap) return null;
+
+        const newChapters = prevRoadmap.chapters.map(chapter => {
+            if (chapter.id === chapterId) {
+                const newResources = chapter.resources.map(resource => {
+                    if (resource.url === resourceUrl) {
+                        return { ...resource, isCompleted: !resource.isCompleted };
+                    }
+                    return resource;
+                });
+                return { ...chapter, resources: newResources };
+            }
+            return chapter;
+        });
+        
+        const newRoadmap = { ...prevRoadmap, chapters: newChapters };
+        addRoadmapToHistory(newRoadmap);
+        return newRoadmap;
+    });
+  }, [addRoadmapToHistory]);
+
+  const handleToggleResourceHelpful = useCallback((chapterId: string, resourceUrl: string) => {
+    setRoadmap(prevRoadmap => {
+        if (!prevRoadmap) return null;
+
+        const newChapters = prevRoadmap.chapters.map(chapter => {
+            if (chapter.id === chapterId) {
+                const newResources = chapter.resources.map(resource => {
+                    if (resource.url === resourceUrl) {
+                        return { ...resource, isHelpful: !resource.isHelpful };
+                    }
+                    return resource;
+                });
+                return { ...chapter, resources: newResources };
+            }
+            return chapter;
+        });
+
+        const newRoadmap = { ...prevRoadmap, chapters: newChapters };
+        addRoadmapToHistory(newRoadmap);
+        return newRoadmap;
+    });
+  }, [addRoadmapToHistory]);
+
 
   const handleReset = () => {
     setTopic('');
@@ -105,6 +155,8 @@ const App: React.FC = () => {
           selectedChapterId={selectedChapterId}
           onSelectChapter={setSelectedChapterId}
           onToggleChapterComplete={handleToggleChapterComplete}
+          onToggleResourceComplete={handleToggleResourceComplete}
+          onToggleResourceHelpful={handleToggleResourceHelpful}
           onReset={handleReset}
           onLoadFromHistory={handleLoadFromHistory}
         />

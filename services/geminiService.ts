@@ -1,4 +1,3 @@
-
 import { GoogleGenAI, Type } from "@google/genai";
 import { Roadmap } from '../types';
 
@@ -108,10 +107,15 @@ export const generateRoadmap = async (topic: string): Promise<Roadmap> => {
     const jsonText = response.text.trim();
     const roadmapData = JSON.parse(jsonText);
     
-    // Add the isCompleted property to each chapter
+    // Add the isCompleted property to each chapter and resource
     const chaptersWithCompletion = roadmapData.chapters.map((chapter: any) => ({
       ...chapter,
       isCompleted: false,
+      resources: (chapter.resources || []).map((resource: any) => ({
+        ...resource,
+        isCompleted: false,
+        isHelpful: false,
+      })),
     }));
 
     return { ...roadmapData, chapters: chaptersWithCompletion };

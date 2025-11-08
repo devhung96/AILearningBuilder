@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Chapter, Roadmap } from '../types';
@@ -15,6 +14,41 @@ interface SidebarProps {
   isSidebarOpen: boolean;
   setIsSidebarOpen: (isOpen: boolean) => void;
 }
+
+const ProgressCircle: React.FC<{ progress: number }> = ({ progress }) => {
+  const strokeWidth = 2.5;
+  const radius = 12 - strokeWidth / 2;
+  const circumference = radius * 2 * Math.PI;
+  const offset = circumference - (progress / 100) * circumference;
+
+  return (
+    <svg height="24" width="24" className="absolute transform -rotate-90">
+      <circle
+        className="text-gray-700"
+        stroke="currentColor"
+        fill="transparent"
+        strokeWidth={strokeWidth}
+        r={radius}
+        cx="12"
+        cy="12"
+      />
+      <circle
+        className="text-purple-500"
+        stroke="currentColor"
+        fill="transparent"
+        strokeWidth={strokeWidth}
+        strokeDasharray={circumference}
+        strokeDashoffset={offset}
+        style={{ transition: 'stroke-dashoffset 0.3s ease' }}
+        r={radius}
+        cx="12"
+        cy="12"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+};
+
 
 const Sidebar: React.FC<SidebarProps> = ({ chapters, selectedChapterId, onSelectChapter, onToggleChapterComplete, onLoadFromHistory, isSidebarOpen, setIsSidebarOpen }) => {
   const { t } = useTranslation();
@@ -34,29 +68,35 @@ const Sidebar: React.FC<SidebarProps> = ({ chapters, selectedChapterId, onSelect
       </div>
       <nav className="flex-1 overflow-y-auto p-2">
         <ul>
-          {chapters.map((chapter, index) => (
-            <li key={chapter.id} className="my-1">
-              <a
-                href="#"
-                onClick={(e) => { e.preventDefault(); handleSelect(() => onSelectChapter(chapter.id)); }}
-                className={`group flex items-center w-full p-3 rounded-md transition-all duration-200 ${selectedChapterId === chapter.id
-                    ? 'bg-purple-600/30 text-white'
-                    : 'text-gray-300 hover:bg-gray-700/50'
-                  }`}
-              >
-                <div
-                  onClick={(e) => { e.stopPropagation(); onToggleChapterComplete(chapter.id); }}
-                  className={`flex-shrink-0 w-6 h-6 mr-3 rounded-full flex items-center justify-center cursor-pointer border-2 transition-all duration-200 ${chapter.isCompleted ? 'bg-green-500 border-green-500' : 'border-gray-500 group-hover:border-purple-400'
+          {chapters.map((chapter, index) => {
+            const totalResources = chapter.resources?.length || 0;
+            const completedResources = totalResources > 0 ? chapter.resources.filter(r => r.isCompleted).length : 0;
+            const progress = totalResources > 0 ? Math.round((completedResources / totalResources) * 100) : 0;
+
+            return (
+              <li key={chapter.id} className="my-1">
+                <a
+                  href="#"
+                  onClick={(e) => { e.preventDefault(); handleSelect(() => onSelectChapter(chapter.id)); }}
+                  className={`group flex items-center w-full p-3 rounded-md transition-all duration-200 ${selectedChapterId === chapter.id
+                      ? 'bg-purple-600/30 text-white'
+                      : 'text-gray-300 hover:bg-gray-700/50'
                     }`}
                 >
-                  {chapter.isCompleted && <CheckIcon className="w-4 h-4 text-white" />}
-                </div>
-                <span className={`flex-1 ${chapter.isCompleted ? 'line-through text-gray-400' : ''}`}>
-                  {index + 1}. {chapter.title}
-                </span>
-              </a>
-            </li>
-          ))}
+                  <div
+                    onClick={(e) => { e.stopPropagation(); onToggleChapterComplete(chapter.id); }}
+                    className="relative flex-shrink-0 w-6 h-6 mr-3 flex items-center justify-center cursor-pointer"
+                  >
+                    <ProgressCircle progress={chapter.isCompleted ? 100 : progress} />
+                    {chapter.isCompleted && <CheckIcon className="w-4 h-4 text-white" />}
+                  </div>
+                  <span className={`flex-1 ${chapter.isCompleted ? 'line-through text-gray-400' : ''}`}>
+                    {index + 1}. {chapter.title}
+                  </span>
+                </a>
+              </li>
+            )
+          })}
         </ul>
       </nav>
       {history.length > 0 && (

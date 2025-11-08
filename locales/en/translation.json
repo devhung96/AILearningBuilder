@@ -1,4 +1,3 @@
-
 {
   "appName": "AI Learning Roadmap Builder",
   "appDescription": "Enter any topic you want to master, and let AI craft your personalized learning journey.",
@@ -32,5 +31,7 @@
   },
   "modelSelector": "Choose a Model:",
   "gemini": "Gemini 2.5 Pro",
-  "openrouter": "Gemma 2 (Free)"
+  "openrouter": "Gemma 2 (Free)",
+  "markAsCompleted": "Mark as completed",
+  "markAsHelpful": "Mark as helpful"
 }
