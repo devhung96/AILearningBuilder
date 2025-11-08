@@ -1,4 +1,3 @@
-
 import React, { useState, useCallback, useEffect } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
@@ -30,7 +29,7 @@ const App: React.FC = () => {
       }
     },
     onSuccess: (data: Roadmap) => {
-      if (data && data.chapters.length > 0) {
+      if (data && data.chapters && data.chapters.length > 0) {
         setRoadmap(data);
         setSelectedChapterId(data.chapters[0].id);
         addRoadmapToHistory(data);
@@ -39,8 +38,8 @@ const App: React.FC = () => {
         setError(t('errorNoRoadmap'));
       }
     },
-    onError: (err) => {
-      setError(t('errorGeneric'));
+    onError: (err: Error) => {
+      setError(err.message || t('errorGeneric'));
       console.error(err);
     },
   });
