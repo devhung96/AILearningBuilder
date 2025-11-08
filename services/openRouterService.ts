@@ -3,6 +3,7 @@ import { Roadmap } from '../types';
 import { roadmapSchema } from './geminiService'; // Reuse the schema for consistency
 
 const API_KEY = process.env.OPENROUTER_API_KEY;
+console.log("OPENROUTER_API_KEY", process.env.OPENROUTER_API_KEY)
 
 if (!API_KEY) {
   // This is a placeholder. In a real app, the key might be managed differently.
