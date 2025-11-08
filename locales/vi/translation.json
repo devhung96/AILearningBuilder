@@ -1,0 +1,36 @@
+
+{
+  "appName": "Xây dựng Lộ trình Học tập bằng AI",
+  "appDescription": "Nhập bất kỳ chủ đề nào bạn muốn thành thạo và để AI tạo ra hành trình học tập được cá nhân hóa cho bạn.",
+  "placeholder": "ví dụ: ReactJS, Học máy, Thiết kế Hướng miền",
+  "generateButton": "Tạo Lộ trình",
+  "generatingButton": "Đang tạo...",
+  "errorTopic": "Vui lòng nhập một chủ đề để học.",
+  "errorGeneric": "Đã xảy ra lỗi khi tạo lộ trình. Vui lòng thử lại sau.",
+  "errorNoRoadmap": "Không thể tạo lộ trình cho chủ đề này. Vui lòng thử một chủ đề khác.",
+  "yourRoadmapFor": "Lộ trình của bạn cho: {{topic}}",
+  "newTopicButton": "Chủ đề mới",
+  "progress": "Tiến độ: Đã hoàn thành {{completedCount}} / {{totalCount}} chương",
+  "selectChapterPrompt": "Chọn một chương để xem nội dung.",
+  "chapters": "Các chương",
+  "history": "Lịch sử",
+  "learningObjectives": "Mục tiêu học tập",
+  "keyConcepts": "Khái niệm chính",
+  "resources": "Tài nguyên",
+  "exercises": "Bài tập",
+  "difficulty": {
+    "easy": "Dễ",
+    "medium": "Trung bình",
+    "hard": "Khó"
+  },
+  "resourceType": {
+    "video": "Video",
+    "article": "Bài viết",
+    "documentation": "Tài liệu",
+    "book": "Sách",
+    "interactive": "Tương tác"
+  },
+  "modelSelector": "Chọn một Mô hình:",
+  "gemini": "Gemini 2.5 Pro",
+  "openrouter": "Gemma 2 (Miễn phí)"
+}

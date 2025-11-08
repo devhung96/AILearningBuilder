@@ -1,0 +1,5 @@
+{
+  "name": "AI Learning Roadmap Builder",
+  "description": "An application that generates a personalized learning roadmap for any topic using AI. Users can input a subject, and the system creates a structured plan with chapters, resources, and exercises to guide their learning journey from beginner to advanced levels, including progress tracking.",
+  "requestFramePermissions": []
+}

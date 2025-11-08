@@ -1,0 +1,27 @@
+{
+  "name": "ai-learning-roadmap-builder",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react-dom": "^19.2.0",
+    "react": "^19.2.0",
+    "@google/genai": "^1.29.0",
+    "@tanstack/react-query": "5",
+    "zustand": "^5.0.8",
+    "i18next": "23",
+    "react-i18next": "14",
+    "i18next-browser-languagedetector": "7"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.0"
+  }
+}

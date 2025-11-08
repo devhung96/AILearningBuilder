@@ -1,0 +1,36 @@
+
+{
+  "appName": "AI Learning Roadmap Builder",
+  "appDescription": "Enter any topic you want to master, and let AI craft your personalized learning journey.",
+  "placeholder": "e.g., ReactJS, Machine Learning, Domain-Driven Design",
+  "generateButton": "Generate Roadmap",
+  "generatingButton": "Generating...",
+  "errorTopic": "Please enter a topic to learn.",
+  "errorGeneric": "An error occurred while generating the roadmap. Please try again later.",
+  "errorNoRoadmap": "Could not generate a roadmap for this topic. Please try another one.",
+  "yourRoadmapFor": "Your Roadmap for: {{topic}}",
+  "newTopicButton": "New Topic",
+  "progress": "Progress: {{completedCount}} / {{totalCount}} chapters completed",
+  "selectChapterPrompt": "Select a chapter to view its content.",
+  "chapters": "Chapters",
+  "history": "History",
+  "learningObjectives": "Learning Objectives",
+  "keyConcepts": "Key Concepts",
+  "resources": "Resources",
+  "exercises": "Exercises",
+  "difficulty": {
+    "easy": "Easy",
+    "medium": "Medium",
+    "hard": "Hard"
+  },
+  "resourceType": {
+    "video": "Video",
+    "article": "Article",
+    "documentation": "Documentation",
+    "book": "Book",
+    "interactive": "Interactive"
+  },
+  "modelSelector": "Choose a Model:",
+  "gemini": "Gemini 2.5 Pro",
+  "openrouter": "Gemma 2 (Free)"
+}
